@@ -1,0 +1,88 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    python_version: 3.11.5
+    cli_version: 0.16.1
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: true
+    start_time: 1703079762.681642
+    t:
+      1:
+      - 1
+      - 41
+      - 55
+      2:
+      - 1
+      - 41
+      - 55
+      3:
+      - 17
+      - 23
+      - 37
+      4: 3.11.5
+      5: 0.16.1
+      8:
+      - 2
+      - 4
+      - 5
+      13: darwin-arm64
+comment:
+  desc: null
+  value: Final_v9_adv_t2_no_adv
+output_image_path:
+  desc: null
+  value: ./results
+content_dir:
+  desc: null
+  value: ../../dataset/MSCoCo
+style_dir:
+  desc: null
+  value: ../../dataset/wikiart
+train_type:
+  desc: null
+  value: split
+type:
+  desc: null
+  value: train
+max_iter:
+  desc: null
+  value: 500001
+batch_size:
+  desc: null
+  value: 5
+lr:
+  desc: null
+  value: 0.0001
+check_iter:
+  desc: null
+  value: 100
+imsize:
+  desc: null
+  value: 256
+cropsize:
+  desc: null
+  value: 256
+num_workers:
+  desc: null
+  value: 16
+cencrop:
+  desc: null
+  value: false
+train_result_dir:
+  desc: null
+  value: ./train_results
+test_result_dir:
+  desc: null
+  value: ./test_results
+test_content_segment:
+  desc: null
+  value: ./test_images/content/
+test_p_reference_segment:
+  desc: null
+  value: ./test_images/p_reference/
+test_iter:
+  desc: null
+  value: 0

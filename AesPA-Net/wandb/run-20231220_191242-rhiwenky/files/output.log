@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/Users/pranavsalunkhe/Development/ImageVerse/AesPA-Net/main.py", line 47, in <module>
+    model.train()
+  File "/Users/pranavsalunkhe/Development/ImageVerse/AesPA-Net/baseline.py", line 398, in train
+    content_loader = torch.utils.data.DataLoader(content_set, batch_size=self.batch_size, shuffle=True, drop_last=True, num_workers=self.num_workers)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 351, in __init__
+    sampler = RandomSampler(dataset, generator=generator)  # type: ignore[arg-type]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/torch/utils/data/sampler.py", line 107, in __init__
+    raise ValueError("num_samples should be a positive integer "
+ValueError: num_samples should be a positive integer value, but got num_samples=0
