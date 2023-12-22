@@ -647,7 +647,7 @@ class Baseline(object):
 
 			end = timeit.default_timer()
 			inference_time.append((end-start))
-			imsave(stylization,  os.path.join(dir_path,  'single_art_stylized_'+str(iteration)+'_'+str(style_adaptive_alpha.item())+'.png'), nrow=self.batch_size )
+			imsave(stylization,  os.path.join(dir_path,  'single_art_stylized'+'.png'), nrow=self.batch_size )
 			
 			##You can test according to various alpha scale##
 

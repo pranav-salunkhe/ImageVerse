@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+</head>
+<body>
+    <form id="imageForm" enctype="multipart/form-data">
+        <input type="file" name="content_image" accept="image/*" required>
+        <input type="file" name="style_image" accept="image/*" required>
+        <button type="button" onclick="uploadImages()">Upload Images</button>
+        <button type="button" style="display: none;" id="viewBtn" onclick="viewImage()">View Image</button>
+    </form>    
+    <script>
+        var d;
+        function uploadImages() {
+            var form = document.getElementById('imageForm');
+            var formData = new FormData(form);
+            var btn = document.getElementById('viewBtn');
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);  // Handle the response from the server
+                // if (data.status === 'success') {
+                //     // Redirect to the /stylized_page route
+                //     window.location.href = '/stylized_page';
+                // }
+                d = data;
+                btn.style.display = 'block';
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function viewImage(){
+            if(d && d.status === 'success'){
+                window.location.href = 'http://127.0.0.1:5000/stylized'
+            }
+        }
+    </script>
+</body>
+</html>
