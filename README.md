@@ -20,18 +20,9 @@ or
 python main.py --type test --batch_size #batch_size --comment <comment> --content_dir <content_dir> --style_dir <style_dir> --num_workers #num_workers
 ```
 
-#### Training
-```
-bash scripts/train_styleaware_v2.sh
-```
-
-
-#### Evaluation
-Available soon
-
 
 ## Citation
-If you find this work useful for your research, please cite:
+
 ```
 @InProceedings{Hong_2023_ICCV,
     author    = {Hong, Kibeom and Jeon, Seogkyu and Lee, Junsoo and Ahn, Namhyuk and Kim, Kunhee and Lee, Pilhyeon and Kim, Daesik and Uh, Youngjung and Byun, Hyeran},
