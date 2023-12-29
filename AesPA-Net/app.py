@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
 import subprocess
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 UPLOAD_FOLDER_CONTENT = 'content_dir'
 UPLOAD_FOLDER_STYLE = 'style_dir'

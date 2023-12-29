@@ -1,46 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Upload</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <form id="imageForm" enctype="multipart/form-data">
-        <input type="file" name="content_image" accept="image/*" required>
-        <input type="file" name="style_image" accept="image/*" required>
-        <button type="button" onclick="uploadImages()">Upload Images</button>
-        <button type="button" style="display: none;" id="viewBtn" onclick="viewImage()">View Image</button>
-    </form>    
+
+<body class="min-h-screen bg-gray-100 flex flex-col items-center">
+    <div class="py-8">
+        <div>
+            <h1>ImageVerse</h1>
+        </div>
+        <div>
+            
+        </div>
+    </div>
+    <form id="imageForm" enctype="multipart/form-data" class="bg-white shadow-md rounded p-4 mb-4">
+        <div class="flex flex-row justify-center items-center ">
+            <div class="m-16">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="content_image">
+                    Content Image
+                </label>
+                <input class="hidden" type="file" name="content_image" accept="image/*" required id="contentImageInput">
+                <div class="flex items-center">
+                    <label id="ci" for="contentImageInput" class="cursor-pointer hover:bg-blue-200 text-white font-bold p-24 rounded focus:outline-none focus:shadow-outline">
+                        <!-- Upload Content Image -->
+                        <img src="../static/upload.png" alt="Upload Content Image" class="h-28 w-28"/>
+                    </label>
+                    <span class="ml-2" id="contentImageName"></span>
+                    <div id="contentImagePreview" class="mt-2"></div>
+                </div>
+            </div>
+            <div class="m-16">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="style_image">
+                    Style Image
+                </label>
+                <input class="hidden" type="file" name="style_image" accept="image/*" required id="styleImageInput">
+                <div class="flex items-center">
+                    <label id="si" for="styleImageInput" class="cursor-pointer hover:bg-blue-200 text-white font-bold p-24 rounded focus:outline-none focus:shadow-outline">
+                        
+                        <img src="../static/upload.png" alt="Upload Style Image" class="h-28 w-28"/>
+
+                    </label>
+                    <span class="ml-2" id="styleImageName"></span>
+                    <div id="styleImagePreview" class="mt-2"></div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col items-center justify-between">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="uploadImages()">
+                Upload Images
+            </button>
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 m-4 rounded focus:outline-none focus:shadow-outline" type="button" style="display: none;" id="viewBtn" onclick="viewImage()">
+                View Image
+            </button>
+        </div>
+    </form>
     <script>
         var d;
+
         function uploadImages() {
             var form = document.getElementById('imageForm');
             var formData = new FormData(form);
             var btn = document.getElementById('viewBtn');
 
             fetch('/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);  // Handle the response from the server
-                // if (data.status === 'success') {
-                //     // Redirect to the /stylized_page route
-                //     window.location.href = '/stylized_page';
-                // }
-                d = data;
-                btn.style.display = 'block';
-            })
-            .catch(error => console.error('Error:', error));
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    d = data;
+                    btn.style.display = 'block';
+                })
+                .catch(error => console.error('Error:', error));
         }
 
-        function viewImage(){
-            if(d && d.status === 'success'){
+        function viewImage() {
+            if (d && d.status === 'success') {
                 window.location.href = 'http://127.0.0.1:5000/stylized'
+            }
+        }
+
+        // Show the selected image name and preview
+        document.getElementById('contentImageInput').addEventListener('change', function () {
+            displayImagePreview(this, 'contentImagePreview', 'contentImageName', 'ci');
+        });
+
+        document.getElementById('styleImageInput').addEventListener('change', function () {
+            displayImagePreview(this, 'styleImagePreview', 'styleImageName', 'si');
+        });
+
+        function displayImagePreview(input, previewId, nameId, oldID) {
+            var preview = document.getElementById(previewId);
+            var name = document.getElementById(nameId);
+            var old = document.getElementById(oldID);
+            var file = input.files[0];
+
+            if (file) {
+                // name.textContent = file.name;
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = new Image();
+                    img.src = e.target.result;
+                    img.classList.add('mt-2', 'h-60', 'w-60');
+                    preview.innerHTML = '';
+                    preview.appendChild(img);
+                    old.classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
+            } else {
+                name.textContent = '';
+                preview.innerHTML = '';
             }
         }
     </script>
 </body>
+
 </html>
