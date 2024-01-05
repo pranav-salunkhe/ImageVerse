@@ -1,0 +1,14 @@
+atomicwrites
+attrs
+click
+Flask
+Flask-SQLAlchemy
+itsdangerous
+Jinja2
+MarkupSafe
+more-itertools
+pluggy
+py
+six
+SQLAlchemy
+Werkzeug
