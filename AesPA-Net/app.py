@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
 import subprocess
+import shutil
 
 app = Flask(__name__, static_folder='static')
 
@@ -53,7 +54,21 @@ def upload():
 @app.route('/stylized')
 def stylized():
     stylized_image_path = os.path.join(app.config['STYLIZED_FOLDER'], 'single_art_stylized.png')
-    return send_from_directory(os.path.dirname(stylized_image_path), os.path.basename(stylized_image_path))
+    static_image_path = os.path.join(app.root_path, 'static', 'single_art_stylized.png')  # Construct path within static folder
+
+    try:
+        shutil.copyfile(stylized_image_path, static_image_path)  # Copy the image
+    except Exception as e:
+        print(f"Error copying image: {e}")
+    print(static_image_path)
+    return render_template('stylized.html', static_image_path=static_image_path)
+    # print(stylized_image_path)
+    # print("\n")
+    # print(os.path.dirname(stylized_image_path))
+    # print("\n")
+    # print(os.path.basename(stylized_image_path))
+    # send_from_directory(os.path.dirname(stylized_image_path), os.path.basename(stylized_image_path))
+    return render_template('stylized.html', stylized_image_path=stylized_image_path)
 
 
 if __name__ == '__main__':
