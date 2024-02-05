@@ -17,7 +17,7 @@ app.config['STYLIZED_FOLDER'] = STYLIZED_FOLDER
 def save_image(file, folder, filename):
     file_path = os.path.join(app.config[folder], filename)
     file.save(file_path)
-
+# 
 def run_style_transfer(content_dir, style_dir):
     command = [
         'python3', 'main.py',

@@ -4,23 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Upload</title>
+    <title>ImageVerse</title>
+    <link rel="icon" type="image/x-icon" href="../static/Logo.jpeg">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="../static/styles.css" rel="stylesheet">
+    <style>
+
+    </style>
 </head>
 
-<body class="min-h-screen bg-gray-100 flex flex-col items-center">
-    <div class="py-8">
-        <div>
-            <h1>ImageVerse</h1>
-        </div>
-        <div>
-            
+<body class="min-h-screen flex flex-col items-center">
+    <div class="py-8 w-full">
+        <div class="flex flex-row justify-between items-center w-full text-5xl">
+            <img src="../static/logo.jpeg" alt="ImageVerse" class="h-16 w-16 rounded-full ml-10 inline-block"/>
+            <h1 class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-red-400 to-red-600">ImageVerse</h1>
+            <ul class="flex flex-row justify-center items-center mr-10 w-56 justify-evenly text-2xl">
+                <li><a href="#about">About</a></li>
+                <li><a href="#team">Team</a></li>
+            </ul>
         </div>
     </div>
-    <form id="imageForm" enctype="multipart/form-data" class="bg-white shadow-md rounded p-4 mb-4">
+    <div class="h-screen">
+    <form id="imageForm" enctype="multipart/form-data" class="bg-white bg-opacity-40 backdrop-blur-2xl shadow-md rounded p-4 mb-4">
         <div class="flex flex-row justify-center items-center ">
             <div class="m-16">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="content_image">
+                <label class="block text-lg font-bold mb-2" for="content_image">
                     Content Image
                 </label>
                 <input class="hidden" type="file" name="content_image" accept="image/*" required id="contentImageInput">
@@ -34,7 +42,7 @@
                 </div>
             </div>
             <div class="m-16">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="style_image">
+                <label class="block text-lg font-bold mb-2" for="style_image">
                     Style Image
                 </label>
                 <input class="hidden" type="file" name="style_image" accept="image/*" required id="styleImageInput">
@@ -49,19 +57,91 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col items-center justify-between">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="uploadImages()">
+        <div id="loaderContainer" class="flex flex-col items-center justify-between">
+            <!-- <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="uploadImages()">
                 Upload Images
+            </button> -->
+            <button class="btn" type="button" onclick="uploadImages()">
+                <svg height="24" width="24" fill="#FFFFFF" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1" class="sparkle">
+                    <path d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z"></path>
+                </svg>
+            
+                <span class="text">Generate</span>
             </button>
-            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 m-4 rounded focus:outline-none focus:shadow-outline" type="button" style="display: none;" id="viewBtn" onclick="viewImage()">
+            <!-- <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 m-4 rounded-x-full focus:outline-none focus:shadow-outline" type="button" style="display: none;" id="viewBtn" onclick="viewImage()">
                 View Image
+            </button> -->
+            <button class="btn mt-6" type="button" style="display: none;" id="viewBtn" onclick="viewImage()">
+                <span class="text">View Image!</span>
             </button>
+
+            <div id="newLoader" class="hidden newLoader">
+                <div class="box box-1">
+                    <div class="side-left"></div>
+                    <div class="side-right"></div>
+                    <div class="side-top"></div>
+                  </div>
+                  <div class="box box-2">
+                    <div class="side-left"></div>
+                    <div class="side-right"></div>
+                    <div class="side-top"></div>
+                  </div>
+                  <div class="box box-3">
+                    <div class="side-left"></div>
+                    <div class="side-right"></div>
+                    <div class="side-top"></div>
+                  </div>
+                  <div class="box box-4">
+                    <div class="side-left"></div>
+                    <div class="side-right"></div>
+                    <div class="side-top"></div>
+                  </div>
+            </div>
         </div>
     </form>
+    </div>
+    <div class="flex flex-row mb-16 px-10 w-full">
+        <div id="about" class="flex flex-col px-10 w-1/2">
+            <p class="text-5xl px-5 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-red-400 to-red-600 ">What is ImageVerse?</p>
+            <p class="text-3xl mt-4 px-5 text-justify">ImageVerse leverages a novel style transfer network (AesPA-Net) to create images by seamlessly blending the style of one image onto another. The project incorporates technical innovations like the Pattern Repeatability Block and user-friendly design for an accessible and creative image transformation experience.</p>
+        </div>
+
+        <div id="team" class="flex flex-col px-10 w-1/2">
+            <p class="text-5xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-red-400 to-red-600">Team</p>
+            <div class="text-3xl mt-4 flex flex-row justify-start items-start">
+                <div class="flex flex-col justify-center items-start">
+                    <p class="text-purple-400">Mentees</p>
+                    <ul>
+                        <li>Pranav Virri</li>
+                        <li>Dharshini</li>
+                        <li>Nithin S</li>
+                        <li>Naveen Kakarla</li>
+                        <li>Aditya Goyal</li>
+                    </ul>
+                </div>
+                <div class="flex flex-col justify-center items-start ml-12">
+                    <p class="text-purple-400">Mentors</p>
+                    <ul>
+                        <li>Pranav Salunkhe</li>
+                        <li>Siddharth Kelkar</li>
+                        <li>Garvit Goyal</li>
+                        <li>Kushangi Sharma</li>
+                    </ul>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
     <script>
         var d;
-
+        // const container = document.getElementById('loaderContainer');
+        const newLoader = document.getElementById('newLoader');
         function uploadImages() {
+            // const loaderDiv = document.createElement('div');
+            // loaderDiv.classList.add('loader');
+            newLoader.classList.remove('hidden');
+            // container.appendChild(loaderDiv);
             var form = document.getElementById('imageForm');
             var formData = new FormData(form);
             var btn = document.getElementById('viewBtn');
@@ -75,6 +155,9 @@
                     console.log(data);
                     d = data;
                     btn.style.display = 'block';
+                    // loaderDiv.remove();
+                    newLoader.classList.add('hidden');
+
                 })
                 .catch(error => console.error('Error:', error));
         }
@@ -107,7 +190,7 @@
                 reader.onload = function (e) {
                     var img = new Image();
                     img.src = e.target.result;
-                    img.classList.add('mt-2', 'h-60', 'w-60');
+                    img.classList.add('mt-2', 'h-60x', 'w-60');
                     preview.innerHTML = '';
                     preview.appendChild(img);
                     old.classList.add('hidden');
