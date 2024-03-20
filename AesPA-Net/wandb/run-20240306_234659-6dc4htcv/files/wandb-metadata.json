@@ -1,0 +1,108 @@
+{
+    "os": "Linux-6.5.0-21-generic-x86_64-with-glibc2.35",
+    "python": "3.10.12",
+    "heartbeatAt": "2024-03-06T18:17:00.518184",
+    "startedAt": "2024-03-06T18:16:59.453277",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/home/nithin/Codes/Projects/ImageVerse/AesPA-Net/main.py",
+    "codePathLocal": "main.py",
+    "codePath": "AesPA-Net/main.py",
+    "git": {
+        "remote": "https://github.com/pranav-salunkhe/ImageVerse.git",
+        "commit": "7bf7ac0c5ebbe74804ad696fe1e573c4f7f420f6"
+    },
+    "email": "sureshnithin1729@gmail.com",
+    "root": "/home/nithin/Codes/Projects/ImageVerse",
+    "host": "nithin1729s",
+    "username": "nithin",
+    "executable": "/usr/bin/python",
+    "cpu_count": 6,
+    "cpu_count_logical": 12,
+    "cpu_freq": {
+        "current": 3179.4760833333335,
+        "min": 400.0,
+        "max": 4280.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3906.77,
+            "min": 400.0,
+            "max": 4280.0
+        },
+        {
+            "current": 3768.567,
+            "min": 400.0,
+            "max": 4280.0
+        },
+        {
+            "current": 3958.441,
+            "min": 400.0,
+            "max": 4280.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 4280.0
+        },
+        {
+            "current": 3215.599,
+            "min": 400.0,
+            "max": 4280.0
+        },
+        {
+            "current": 3419.193,
+            "min": 400.0,
+            "max": 4280.0
+        },
+        {
+            "current": 3917.34,
+            "min": 400.0,
+            "max": 4280.0
+        },
+        {
+            "current": 3486.656,
+            "min": 400.0,
+            "max": 4280.0
+        },
+        {
+            "current": 4165.602,
+            "min": 400.0,
+            "max": 4280.0
+        },
+        {
+            "current": 4167.421,
+            "min": 400.0,
+            "max": 4280.0
+        },
+        {
+            "current": 3890.383,
+            "min": 400.0,
+            "max": 4280.0
+        },
+        {
+            "current": 4063.709,
+            "min": 400.0,
+            "max": 4280.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 261.48073959350586,
+            "used": 127.14889144897461
+        }
+    },
+    "gpu": "NVIDIA GeForce GTX 1650",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce GTX 1650",
+            "memory_total": 4294967296
+        }
+    ],
+    "memory": {
+        "total": 7.097297668457031
+    }
+}
