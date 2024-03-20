@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/home/nithin/Codes/Projects/ImageVerse/AesPA-Net/main.py", line 47, in <module>
+    model.train()
+  File "/home/nithin/Codes/Projects/ImageVerse/AesPA-Net/baseline.py", line 398, in train
+    content_loader = torch.utils.data.DataLoader(content_set, batch_size=self.batch_size, shuffle=True, drop_last=True, num_workers=self.num_workers)
+  File "/home/nithin/.local/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 349, in __init__
+    sampler = RandomSampler(dataset, generator=generator)  # type: ignore[arg-type]
+  File "/home/nithin/.local/lib/python3.10/site-packages/torch/utils/data/sampler.py", line 140, in __init__
+    raise ValueError(f"num_samples should be a positive integer value, but got num_samples={self.num_samples}")
+ValueError: num_samples should be a positive integer value, but got num_samples=0
+Traceback (most recent call last):
+  File "/home/nithin/Codes/Projects/ImageVerse/AesPA-Net/main.py", line 47, in <module>
+    model.train()
+  File "/home/nithin/Codes/Projects/ImageVerse/AesPA-Net/baseline.py", line 398, in train
+    content_loader = torch.utils.data.DataLoader(content_set, batch_size=self.batch_size, shuffle=True, drop_last=True, num_workers=self.num_workers)
+  File "/home/nithin/.local/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 349, in __init__
+    sampler = RandomSampler(dataset, generator=generator)  # type: ignore[arg-type]
+  File "/home/nithin/.local/lib/python3.10/site-packages/torch/utils/data/sampler.py", line 140, in __init__
+    raise ValueError(f"num_samples should be a positive integer value, but got num_samples={self.num_samples}")
+ValueError: num_samples should be a positive integer value, but got num_samples=0
