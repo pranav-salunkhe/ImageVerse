@@ -70,6 +70,9 @@ def stylized():
     # send_from_directory(os.path.dirname(stylized_image_path), os.path.basename(stylized_image_path))
     return render_template('stylized.html', stylized_image_path=stylized_image_path)
 
+@app.route('/camera')
+def camera():
+    return render_template('camera.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

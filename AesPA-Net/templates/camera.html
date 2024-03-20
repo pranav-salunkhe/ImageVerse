@@ -17,29 +17,50 @@
         <div class="flex flex-row justify-between items-center w-full text-5xl">
             <img src="../static/logo.jpeg" alt="ImageVerse" class="h-16 w-16 rounded-full ml-10 inline-block"/>
             <h1 class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-red-400 to-red-600">ImageVerse</h1>
-            <ul class="flex flex-row justify-center items-center mr-10 w-64 justify-between text-lg">
-                <li class="hover:border-b-2 hover:border-white""><a class="" href="/camera">Try with camera!</a></li>
-                <li><a class="" href="#about">About</a></li>
-                <li><a class="" href="#team">Team</a></li>
+            <ul class="flex flex-row justify-center items-center mr-10 w-56 justify-evenly text-2xl">
+                <li><a href="/">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#team">Team</a></li>
             </ul>
         </div>
     </div>
+    <div class="flex w-full flex-col justify-center items-center">
+        <!-- Here we stream video from the webcam -->
+        <h4>
+          Video coming from Webcam
+          <button class="btn" id="btnCapture">Capture to Canvas >></button>
+        </h4>
+        <video id="video" playsinline autoplay alt="Webcam video stream"></video>
+      </div>
     <div class="h-screen">
     <form id="imageForm" enctype="multipart/form-data" class="bg-white bg-opacity-40 backdrop-blur-2xl shadow-md rounded p-4 mb-4">
         <div class="flex flex-row justify-center items-center ">
             <div class="m-16">
-                <label class="block text-lg font-bold mb-2" for="content_image">
+                <div style="margin-top:20px;padding:20px;">
+                    <p><span id="errorMsg"></span></p>
+                    <div class="flex">
+                      <div class="flex flex-col">
+                        <p class="text-lg">
+                          Captured image from Webcam
+                          <button onclick="captureImageToInputFile()" class="btn" id="btnSave" name="btnSave">Save</button>
+                        </p>
+                        <!-- Webcam video snapshot -->
+                        <canvas id="canvas" width="475" height="475" alt="Canvas image"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                <input class="hidden" type="file" name="content_image" accept="image/*" required id="contentImageInput">
+                <!-- <label class="block text-lg font-bold mb-2" for="content_image">
                     Content Image
                 </label>
-                <input class="hidden" type="file" name="content_image" accept="image/*" required id="contentImageInput">
                 <div class="flex items-center">
                     <label id="ci" for="contentImageInput" class="cursor-pointer hover:bg-blue-200 text-white font-bold p-24 rounded focus:outline-none focus:shadow-outline">
-                        <!-- Upload Content Image -->
+                        Upload Content Image
                         <img src="../static/upload.png" alt="Upload Content Image" class="h-28 w-28"/>
                     </label>
                     <span class="ml-2" id="contentImageName"></span>
                     <div id="contentImagePreview" class="mt-2"></div>
-                </div>
+                </div> -->
             </div>
             <div class="m-16">
                 <label class="block text-lg font-bold mb-2" for="style_image">
@@ -100,7 +121,7 @@
         </div>
     </form>
     </div>
-    <div class="flex flex-row mb-16 px-10 w-full">
+    <!-- <div class="flex flex-row mb-16 px-10 w-full">
         <div id="about" class="flex flex-col px-10 w-1/2">
             <p class="text-5xl px-5 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-red-400 to-red-600 ">What is ImageVerse?</p>
             <p class="text-3xl mt-4 px-5 text-justify">ImageVerse leverages a novel style transfer network (AesPA-Net) to create images by seamlessly blending the style of one image onto another. The project incorporates technical innovations like the Pattern Repeatability Block and user-friendly design for an accessible and creative image transformation experience.</p>
@@ -132,8 +153,88 @@
 
             </div>
         </div>
-    </div>
+    </div> -->
     <script>
+        const video = document.querySelector("#video");
+
+// Basic settings for the video to get from Webcam
+const constraints = {
+  audio: false,
+  video: {
+    width: 475,
+    height: 475
+  }
+};
+
+// This condition will ask permission to user for Webcam access
+if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia(constraints)
+    .then(function(stream) {
+      video.srcObject = stream;
+    })
+    .catch(function(err0r) {
+      console.log("Something went wrong!");
+    });
+}
+
+function stop(e) {
+  const stream = video.srcObject;
+  const tracks = stream.getTracks();
+
+  for (let i = 0; i < tracks.length; i++) {
+    const track = tracks[i];
+    track.stop();
+  }
+  video.srcObject = null;
+}
+
+
+// Below code to capture image from Video tag (Webcam streaming)
+const btnCapture = document.querySelector("#btnCapture");
+const canvas = document.getElementById('canvas');
+const contentImageInput = document.getElementById('contentImageInput');
+
+function captureImageToInputFile() {
+    // Convert the content of the canvas to a Blob object
+    canvas.toBlob(function(blob) {
+        // Create a File object from the Blob
+        const file = new File([blob], 'content_image.png', { type: 'image/png' });
+
+        // Create a FileList object containing the File object
+        const fileList = new DataTransfer();
+        fileList.items.add(file);
+
+        // Set the FileList object as the value of the input file
+        contentImageInput.files = fileList.files;
+    }, 'image/png');
+}
+
+btnCapture.addEventListener('click', function() {
+  const context = canvas.getContext('2d');
+  // Capture the image into canvas from Webcam streaming Video element
+  context.drawImage(video, 0, 0);
+});
+
+// // Upload image to server - ajax call - with the help of base64 data as a parameter
+// const btnSave = document.querySelector("#btnSave");
+
+// btnSave.addEventListener('click', async function() {
+//   // Below new canvas to generate flip/mirror image from existing canvas
+//   const destinationCanvas = document.createElement("canvas");
+//   const destCtx = destinationCanvas.getContext('2d');
+
+//   destinationCanvas.height = 500;
+//   destinationCanvas.width = 500;
+
+//   destCtx.translate(video.videoWidth, 0);
+//   destCtx.scale(-1, 1);
+//   destCtx.drawImage(document.getElementById("canvas"), 0, 0);
+
+//   // Get base64 data to send to server for upload
+//   let imagebase64data = destinationCanvas.toDataURL("image/png");
+//   imagebase64data = imagebase64data.replace('data:image/png;base64,', '');
+//   captureImageToInputFile();
+// });
         var d;
         // const container = document.getElementById('loaderContainer');
         const newLoader = document.getElementById('newLoader');
@@ -152,6 +253,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    console.log("form data: \n",formData);
                     console.log(data);
                     d = data;
                     btn.style.display = 'block';
