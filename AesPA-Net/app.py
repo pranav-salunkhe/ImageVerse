@@ -1,7 +1,9 @@
+import time
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
 import subprocess
 import shutil
+import requests
 
 app = Flask(__name__, static_folder='static')
 
@@ -51,6 +53,76 @@ def upload():
 
     return jsonify({'status': 'success', 'message': 'Images uploaded successfully'})
 
+@app.route('/text-submit', methods=['POST'])
+def text_submit():
+    try:
+        # Get input prompts from the request
+        content_image_text = request.form.get('input1')
+        style_image_text = request.form.get('input2')
+        print("CIT: ",content_image_text)
+        if not content_image_text or not style_image_text:
+            return jsonify({'status': 'error', 'message': 'Both prompts are required.'}), 400
+
+        # Define the Prodia API URL and headers
+        prodia_url = "https://api.prodia.com/v1/sd/generate"
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "X-Prodia-Key": "86854128-348f-4cb4-b03f-819dd08862fe"  # Replace with your Prodia API key
+        }
+
+        # Helper function to generate and download image
+        def generate_and_download_image(prompt, save_path):
+            payload = {
+                "model": "elldreths-vivid-mix.safetensors [342d9d26]",
+                "prompt": prompt
+                }
+            response = requests.post(prodia_url, json=payload, headers=headers)
+            response_data = response.json()
+
+            # Check for job creation success
+            if 'job' not in response_data:
+                raise Exception("Failed to create Prodia generation job.")
+
+            job_id = response_data['job']
+            job_url = f"https://api.prodia.com/v1/job/{job_id}"
+
+            # Poll for the job result
+            while True:
+                job_response = requests.get(job_url, headers=headers).json()
+                print("in")
+                if job_response.get('status') == 'succeeded':
+                    image_url = job_response.get('imageUrl')
+                    if not image_url:
+                        raise Exception("Image URL not found in job response.")
+
+                    # Download the image
+                    image_response = requests.get(image_url)
+                    if image_response.status_code == 200:
+                        with open(save_path, 'wb') as file:
+                            file.write(image_response.content)
+                        return
+                    else:
+                        raise Exception("Failed to download the generated image.")
+                elif job_response.get('status') == 'failed':
+                    raise Exception("Prodia generation job failed.")
+                # Add a short delay to prevent rapid polling
+                time.sleep(1)
+
+        # Generate and save the content and style images
+        generate_and_download_image(content_image_text, UPLOAD_FOLDER_CONTENT+'/ci.jpg')
+        print("between")
+        generate_and_download_image(style_image_text, UPLOAD_FOLDER_STYLE+'/si.jpg')
+
+        # Run the style transfer
+        run_style_transfer(UPLOAD_FOLDER_CONTENT, UPLOAD_FOLDER_STYLE)
+
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+    return jsonify({'status': 'success', 'message': 'Images generated and style transfer completed successfully'})
+
+
 @app.route('/stylized')
 def stylized():
     stylized_image_path = os.path.join(app.config['STYLIZED_FOLDER'], 'single_art_stylized.png')
@@ -73,6 +145,11 @@ def stylized():
 @app.route('/camera')
 def camera():
     return render_template('camera.html')
+
+@app.route('/text')
+def text():
+    return render_template('text.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
